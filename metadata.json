@@ -1,0 +1,8 @@
+{
+  "name": "Transmutar a ebook",
+  "description": "Sistema de Producción Editorial para libros, novelas y textos largos: conservación estricta de niveles, tablas, poemas, diálogos con rayas, auditoría de uniformidad transversal y edición paralela bilingüe.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

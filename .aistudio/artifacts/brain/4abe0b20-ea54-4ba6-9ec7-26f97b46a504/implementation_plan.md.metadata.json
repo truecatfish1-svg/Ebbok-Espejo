@@ -1,0 +1,6 @@
+{
+  "summary": "Plan integral de rearmado del sistema editorial: unificación en los 3 procesos esenciales (1. Ingesta y Limpieza, 2. Estructura e Índice, 3. Edición Espejo y Exportación) más el panel de Auditoría Técnica y Código en Vivo; eliminación total de fuentes serif y rediseño minimalista sin saturación visual; resolución del detector automático de índice/TOC en el pipeline; clarificación de métricas de Fase 2 en lenguaje natural; y despacho por macro-bloques con motor local determinista para erradicar el agotamiento de tokens.",
+  "updatedAt": "2026-10-17T04:31:03.827895642Z",
+  "requestFeedback": true,
+  "userFacing": true
+}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function() {
+        function shouldSuppress(message, error) {
+          var msgStr = '';
+          if (message) {
+            msgStr = String(message).toLowerCase();
+          } else if (error && error.message) {
+            msgStr = String(error.message).toLowerCase();
+          } else if (error) {
+            msgStr = String(error).toLowerCase();
+          }
+          if (!msgStr) return false;
+          return msgStr.indexOf('browser extension') !== -1 || 
+                 msgStr.indexOf('extension') !== -1 || 
+                 msgStr.indexOf('uncaught error') !== -1;
+        }
+
+        // Add capture listener at window level as early as possible
+        window.addEventListener('error', function(e) {
+          var msg = e.message || (e.error && e.error.message) || '';
+          if (shouldSuppress(msg, e.error)) {
+            try {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+            } catch(err) {}
+            return true;
+          }
+        }, true);
+
+        // Also override window.onerror
+        var oldOnError = window.onerror;
+        window.onerror = function(msg, url, line, col, error) {
+          if (shouldSuppress(msg, error)) {
+            return true; // Suppress
+          }
+          if (oldOnError) {
+            try {
+              return oldOnError.apply(window, arguments);
+            } catch(err) {
+              return true;
+            }
+          }
+          return false;
+        };
+
+        // Suppress unhandled promise rejections as well
+        window.addEventListener('unhandledrejection', function(e) {
+          var reason = e.reason;
+          var msg = (reason && (reason.message || reason)) || '';
+          if (shouldSuppress(msg, reason)) {
+            try {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+            } catch(err) {}
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TE - Transcrito Editorial | Transmutar a ebook</title>
+    <meta name="description" content="TE - Transcrito Editorial: Sistema de Producción Editorial para libros, novelas y textos largos: conservación estricta de niveles, tablas, poemas, diálogos con rayas, auditoría de uniformidad transversal y edición paralela bilingüe." />
+    <meta property="og:title" content="TE - Transcrito Editorial | Transmutar a ebook" />
+    <meta property="og:description" content="TE - Transcrito Editorial: Sistema de Producción Editorial para libros, novelas y textos largos: conservación estricta de niveles, tablas, poemas, diálogos con rayas, auditoría de uniformidad transversal y edición paralela bilingüe." />
+    <!-- Google Fonts: Modern Clean Sans-Serif & Mono Typefaces -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
